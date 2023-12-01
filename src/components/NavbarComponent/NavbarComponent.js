@@ -17,7 +17,7 @@ export default function NavbarComponent() {
                             <Link href="/">
                                 <li className='ml-6 text-lg cursor-pointer text-neutral-500 hover:text-blue-400 hover:font-medium'>Discover</li>
                             </Link>
-                            <Link href="/">
+                            <Link href="/projects">
                                 <li className='ml-6 text-lg cursor-pointer text-neutral-500  hover:text-blue-400 hover:font-medium'>Projects</li>
                             </Link>
                             <Link href="/">
