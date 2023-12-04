@@ -11,7 +11,7 @@ export default function PostCard(){
   const [postDescription, setPostDescription] = useState("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua")
   const [tags, setTags] = useState(["#WebDevelopment"])
   return (
-<article className="=xmb-4 w-1/2 break-inside rounded-md bg-white flex flex-col bg-clip-border shadow-xl basis-1/2 text-[#5E5873] h-full">
+<article className="=xmb-4 m-5 break-inside rounded-md bg-white flex flex-col bg-clip-border shadow-xl basis-1/2 text-[#5E5873] h-full">
         <div className="flex items-center p-3 justify-between bg-white rounded-t-md">
           <div className="flex">
             <Link className="inline-block mr-4" href="#">
