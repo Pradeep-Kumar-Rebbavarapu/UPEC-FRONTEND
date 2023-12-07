@@ -1,10 +1,13 @@
 "use client";
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState } from 'react';
 import SenderChatCard from './SenderChatCard';
 import RecieverChatCard from './RecieverChatCard';
+import HomeContext from '@/context/HomeContext';
 
-export default function MainChatCard() {
+export default function MainChatCard({id}) {
+    const {auth,EachUsersMessages, setEachUsersMessages} = useContext(HomeContext)
+    console.log(EachUsersMessages)
   return (
     <div className='border border-gray-200 bg-white w-3/4 h-screen'>
         <div className="w-full flex items-start justify-start p-2 border border-gray-200">
@@ -15,9 +18,19 @@ export default function MainChatCard() {
             </div>
         </div>
         <div className="h-full">
-            <SenderChatCard/>
-            <RecieverChatCard/>
-            <SenderChatCard/>
+            {EachUsersMessages?.map((ele)=>{
+                return (
+                    <div>
+                        {ele.sender == auth.user.id ? (
+                            <RecieverChatCard ele={ele}/>
+                            
+                        ):(
+                            <SenderChatCard ele={ele}/>
+                        )}
+                    
+                    </div>
+                )
+            })}
         </div>
         <div className="flex justify-center items-center border border-gray-200 p-4">
             <div className="mx-4 border border-gray-200 h-10 w-full rounded-lg"></div>
@@ -29,3 +42,40 @@ export default function MainChatCard() {
     </div>
   )
 }
+
+
+const fetchPersonalChats = async (data) => {
+    return axios
+      .post(
+        `http://127.0.0.1:8000/api/v1/__get__personal__chat__/${data.receiver_id}`,
+        {id:data.sender_id},
+        {
+          headers: {
+            Authorization: `Bearer ${data.access}`,
+          },
+        }
+      )
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        return [];
+      });
+  };
+  
+  const useGetPersonalChats = () => {
+    const queryClient = useQueryClient();
+    const { EachUsersMessages, setEachUsersMessages } = useContext(HomeContext);
+    return useMutation({
+      mutationFn: fetchPersonalChats,
+      onSuccess: (data) => {
+        console.log(data);
+        setEachUsersMessages(data);
+        queryClient.invalidateQueries(["UsersMessages"]);
+      },
+      onError: (context) => {
+        queryClient.setQueryData(["UsersMessages"], context.previousData);
+      },
+    });
+  };

@@ -1,15 +1,44 @@
-"use client";
-import React from 'react'
-import { useState } from 'react';
+'use client'
 import Link from 'next/link';
+import { useContext, useState } from 'react';
+import axios from 'axios';
+
+import HomeContext from '@/context/HomeContext';
+import {
+    useQuery,
+    useMutation,
+    dehydrate,
+    useQueryClient,
+    Hydrate,
+    QueryClient,
+    QueryClientProvider,
+  } from '@tanstack/react-query'
 export default function RecentChats() {
-    
-    const [recentEvents, setRecentEvents] = useState([
-        { event: "Dev Hackathon", date: new Date(2023, 11, 3) }, 
-        { event: "Enosium Hackathon", date: new Date(2023, 11, 3) },
-        { event: "Inter IIT'23", date: new Date(2023, 11, 3) },
-      ]);
+    const {auth,EachUsersMessages, setEachUsersMessages} = useContext(HomeContext)
+    const [Group,setGroup] = useState(false)
+   
+    const directChat =  useQuery({
+        queryKey: ["DirectChatUsers"],
+        queryFn: () => {
+          return DirectChatUsers(auth.user.id);
+        },
+      });
       
+   const ProjectGroupChat = useQuery({
+    queryKey: ["getProjectGroupChats"],
+    queryFn: () => {
+      return getProjectGroupChats(auth.user.id);
+    }
+    })
+
+    const GroupChat = useQuery({
+        queryKey: ["GroupChatUsers"],
+        queryFn: () => {
+          return GroupChatUsers(auth.user.id);
+        }
+        })
+    
+    const test1 = useGetPersonalChats()
   return (
     <div className='bg-white p-2 border border-gray-200 w-1/4'>
       <div className="w-full flex border border-gray-200 p-2">
@@ -31,15 +60,19 @@ export default function RecentChats() {
             </div>
             <div className="flow-root">
                 <ul role="list" className="divide-y divide-gray-200">
-                    {recentEvents.map((item) => (
+                    {directChat?.data?.map((item) => (
                     <li className="py-2">
                         <div className="flex items-center">
                             <div className="flex-1 min-w-0 ms-4">
-                                <p className="text-md font-medium text-[#5E5873] truncate hover:text-[#0075FF] hover:underline">
-                                    {item.event}
+                                <p onClick={()=>{
+                                    console.log(item.i)
+                                    setSelectedName(item.username)
+                                    test1.mutate({sender_id:auth.user.id,receiver_id:item.id,group:false})
+                                }}  className="text-md font-medium text-[#5E5873] truncate hover:text-[#0075FF] hover:underline">
+                                    {item.username}
                                 </p>
                                 <p className="text-md text-[#5E5873] truncate">
-                                    {item.date.toLocaleDateString()}
+                                    {item?.last_login}
                                 </p>
                             </div>
                         </div>
@@ -56,15 +89,19 @@ export default function RecentChats() {
             </div>
             <div className="flow-root">
                 <ul role="list" className="divide-y divide-gray-200">
-                    {recentEvents.map((item) => (
+                    {ProjectGroupChat?.data?.map((item) => (
                     <li className="py-2">
                         <div className="flex items-center">
                             <div className="flex-1 min-w-0 ms-4">
-                                <p className="text-md font-medium text-[#5E5873] truncate hover:text-[#0075FF] hover:underline">
-                                    {item.event}
+                                <p onClick={()=>{
+                                    setGroup(true)
+                                    setSelectedName(item.grp_name)
+                                    test1.mutate({sender_id:auth.user.id,receiver_id:item.grp_id,group:true})
+                                }}  className="text-md font-medium text-[#5E5873] truncate hover:text-[#0075FF] hover:underline">
+                                    {item.grp_name}
                                 </p>
                                 <p className="text-md text-[#5E5873] truncate">
-                                    {item.date.toLocaleDateString()}
+                                    {item.created_at_date + " " + item.created_at_time}
                                 </p>
                             </div>
                         </div>
@@ -81,15 +118,19 @@ export default function RecentChats() {
             </div>
             <div className="flow-root">
                 <ul role="list" className="divide-y divide-gray-200">
-                    {recentEvents.map((item) => (
+                    {GroupChat?.data?.map((item) => (
                     <li className="py-2">
                         <div className="flex items-center">
                             <div className="flex-1 min-w-0 ms-4">
-                                <p className="text-md font-medium text-[#5E5873] truncate hover:text-[#0075FF] hover:underline">
-                                    {item.event}
+                                <p onClick={()=>{
+                                    setGroup(true)
+                                    setSelectedName(item.grp_name)
+                                    test1.mutate({sender_id:auth.user.id,receiver_id:item.grp_id,group:true})
+                                }} className="text-md font-medium text-[#5E5873] truncate hover:text-[#0075FF] hover:underline">
+                                    {item.grp_name}
                                 </p>
                                 <p className="text-md text-[#5E5873] truncate">
-                                    {item.date.toLocaleDateString()}
+                                    {item.created_at_date + " " + item.created_at_time}
                                 </p>
                             </div>
                         </div>
@@ -101,3 +142,59 @@ export default function RecentChats() {
     </div>
   )
 }
+
+
+const DirectChatUsers = async (id) =>{
+    return axios.get(`http://127.0.0.1:8000/api/v1/__get__direct__chat__users__/${id}`).then((response)=>{
+        return response.data
+    })
+}
+const GroupChatUsers = async (id) =>{
+    return axios.get(`http://127.0.0.1:8000/api/v1/__get__group__chat__users__/${id}`).then((response)=>{
+        return response.data
+    })
+}
+const getProjectGroupChats = async (id) =>{
+    return axios.get(`http://127.0.0.1:8000/api/v1/__get__project__related__groups__/${id}`).then((response)=>{
+        return response.data
+    })
+}
+
+
+
+
+const fetchPersonalChats = async (data) => {
+    return axios
+      .post(
+        data.group?`http://127.0.0.1:8000/api/v1/__get__group__messages__/`:`http://127.0.0.1:8000/api/v1/__get__personal__messages__/`,
+        {sender:data.sender_id,receiver:data.receiver_id},
+        {
+          headers: {
+            Authorization: `Bearer ${data.access}`,
+          },
+        }
+      )
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        return [];
+      });
+  };
+  
+  const useGetPersonalChats = () => {
+    const queryClient = useQueryClient();
+    const { EachUsersMessages, setEachUsersMessages } = useContext(HomeContext);
+    return useMutation({
+      mutationFn: fetchPersonalChats,
+      onSuccess: (data) => {
+        console.log(data);
+        setEachUsersMessages(data);
+        queryClient.invalidateQueries(["UsersMessages"]);
+      },
+      onError: (context) => {
+        queryClient.setQueryData(["UsersMessages"], context.previousData);
+      },
+    });
+};
