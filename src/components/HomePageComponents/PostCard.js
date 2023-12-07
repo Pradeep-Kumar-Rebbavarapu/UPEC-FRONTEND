@@ -11,15 +11,15 @@ export default function PostCard(){
   const [postDescription, setPostDescription] = useState("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua")
   const [tags, setTags] = useState(["#WebDevelopment"])
   return (
-<article className="=xmb-4 m-5 break-inside rounded-md bg-white flex flex-col bg-clip-border shadow-xl basis-1/2 text-[#5E5873] h-full">
+<article className="my-5 break-inside rounded-md bg-white flex flex-col bg-clip-border shadow-xl text-[#5E5873] h-max w-full sm:w-[90%] mx-auto">
         <div className="flex items-center p-3 justify-between bg-white rounded-t-md">
           <div className="flex">
-            <Link className="inline-block mr-4" href="#">
-              <img className="rounded-full max-w-none w-14 h-14" src={image}/>
+            <Link className="inline-block" href="#">
+              <img className="rounded-full max-w-none w-12 h-12 xl:w-16 xl:h-16" src={image}/>
             </Link>
-            <div className="flex flex-col">
-              <div className="flex items-center">
-                <a className="inline-block text-lg font-bold mr-2" href="#">{name}</a>
+            <div className="flex flex-col mx-2 justify-center">
+              <div className="flex">
+                <a className="inline-block lg:text-lg sm:text-sm text-xs font-bold" href="#">{name}</a>
               </div>
               <div className="text-slate-500">
                 {tagline}
@@ -28,14 +28,14 @@ export default function PostCard(){
           </div>
         </div>
         <div className="">
-          <div className="flex justify-between">
+          <div className="flex justify-center">
             <Link className="flex" href="#">
               <img className="max-w-full rounded-l-lg"
                 src="DanielKim_0-1650897476639.png" />
             </Link>
           </div>
         </div>
-        <h2 className="text-3xl font-bold m-5">
+        <h2 className=" text-md xs:text-lg sm:text-2xl xl:text-3xl font-bold m-5">
           {postHeading}
         </h2>
         <div className="mx-5">
@@ -43,18 +43,25 @@ export default function PostCard(){
             {postDescription}
           </p>
         </div>
-        <div className="py-4">
-          <Link className="inline-flex items-center" href="#">
-            <span className="bg-[#EBF5FB] px-5 py-2 rounded-full mx-2 text-sm">
-                {tags}
-            </span>
-            <span className="bg-[#EBF5FB] px-5 py-2 rounded-full mx-2 text-sm">
-                {tags}
-            </span>
-            <span className="bg-[#EBF5FB] px-5 py-2 rounded-full mx-2 text-sm">
-                {tags}
-            </span>
-          </Link>
+        <div className="p-2 sm:p-4 flex flex-wrap items-center">
+          <span className="bg-[#EBF5FB] xl:px-5 p-1 sm:py-2 sm:px-2 rounded-full m-1 sm:m-2 text-xs xl:text-sm">
+              {tags}
+          </span>
+          <span className="bg-[#EBF5FB] xl:px-5 p-1 sm:py-2 sm:px-2 rounded-full m-1 sm:m-2 text-xs xl:text-sm">
+              {tags}
+          </span>
+          <span className="bg-[#EBF5FB] xl:px-5 p-1 sm:py-2 sm:px-2 rounded-full m-1 sm:m-2 text-xs xl:text-sm">
+              {tags}
+          </span>
+          <span className="bg-[#EBF5FB] xl:px-5 p-1 sm:py-2 sm:px-2 rounded-full m-1 sm:m-2 text-xs xl:text-sm">
+              {tags}
+          </span>
+          <span className="bg-[#EBF5FB] xl:px-5 p-1 sm:py-2 sm:px-2 rounded-full m-1 sm:m-2 text-xs xl:text-sm">
+              {tags}
+          </span>
+          <span className="bg-[#EBF5FB] xl:px-5 p-1 sm:py-2 sm:px-2 rounded-full m-1 sm:m-2 text-xs xl:text-sm">
+              {tags}
+          </span>
         </div>
       </article>
   )

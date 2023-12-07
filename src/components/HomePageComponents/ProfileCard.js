@@ -13,11 +13,11 @@ export default function ProfileCard() {
     const [email, setEmail] = useState("john@exmaple.com")
     const [skill, setSkill] = useState(["HTML ","CSS ","JavaScript "])
   return (
-<div className="flex w-full justify-center basis-1/4">
+<div className="hidden lg:flex justify-center w-1/5 lg:w-1/4">
 <div className="max-w-xs">
     <div className="bg-white shadow-xl rounded-md py-3">
         <div className="photo-wrapper p-2">
-        <img className="w-32 h-32 rounded-full mx-auto" src={image} alt={name}/>
+        <img className="w-16 h-16 lg:w-24 lg:h-24 xl:w-32 xl:h-32 rounded-full mx-auto" src={image} alt={name}/>
         </div>
         <div className="p-2">
             <h3 className="text-center text-xl text-[#5E5873] font-bold leading-8">{name}</h3>
