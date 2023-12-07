@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { useContext, useState } from 'react';
 import axios from 'axios';
+import React from 'react';
 
 import HomeContext from '@/context/HomeContext';
 import {
@@ -14,8 +15,8 @@ import {
     QueryClientProvider,
   } from '@tanstack/react-query'
 export default function RecentChats() {
-    const {auth,EachUsersMessages, setEachUsersMessages} = useContext(HomeContext)
-    const [Group,setGroup] = useState(false)
+    const {auth,EachUsersMessages, setEachUsersMessages,SelectedName,setSelectedName,Group,setGroup,Receiver,setReceiver,setAI} = useContext(HomeContext)
+    
    
     const directChat =  useQuery({
         queryKey: ["DirectChatUsers"],
@@ -61,22 +62,31 @@ export default function RecentChats() {
             <div className="flow-root">
                 <ul role="list" className="divide-y divide-gray-200">
                     {directChat?.data?.map((item) => (
-                    <li className="py-2">
-                        <div className="flex items-center">
-                            <div className="flex-1 min-w-0 ms-4">
-                                <p onClick={()=>{
-                                    console.log(item.i)
-                                    setSelectedName(item.username)
-                                    test1.mutate({sender_id:auth.user.id,receiver_id:item.id,group:false})
-                                }}  className="text-md font-medium text-[#5E5873] truncate hover:text-[#0075FF] hover:underline">
-                                    {item.username}
-                                </p>
-                                <p className="text-md text-[#5E5873] truncate">
-                                    {item?.last_login}
-                                </p>
-                            </div>
-                        </div>
-                    </li>))}
+                        <React.Fragment>
+                            {item.id != 4 && item.id != auth.user.id && (
+                                <li className="py-2">
+                                <div className="flex items-center">
+                                    <div className="flex-1 min-w-0 ms-4">
+                                        <p onClick={()=>{
+                                            setGroup(false)
+                                            setAI(false)
+                                            console.log(item.i)
+                                            setSelectedName(item.username)
+                                            setReceiver(item.id)
+                                            test1.mutate({sender_id:auth.user.id,receiver_id:item.id,group:false})
+                                        }}  className="text-md font-medium text-[#5E5873] truncate hover:text-[#0075FF] hover:underline">
+                                            {item.username}
+                                        </p>
+                                        <p className="text-md text-[#5E5873] truncate">
+                                            {item?.last_login}
+                                        </p>
+                                    </div>
+                                </div>
+                                </li>
+                            )}
+                        
+                    </React.Fragment>
+                    ))}
                 </ul>
             </div>
         </div>
@@ -94,8 +104,10 @@ export default function RecentChats() {
                         <div className="flex items-center">
                             <div className="flex-1 min-w-0 ms-4">
                                 <p onClick={()=>{
+                                   
                                     setGroup(true)
                                     setSelectedName(item.grp_name)
+                                    setReceiver(item.grp_id)
                                     test1.mutate({sender_id:auth.user.id,receiver_id:item.grp_id,group:true})
                                 }}  className="text-md font-medium text-[#5E5873] truncate hover:text-[#0075FF] hover:underline">
                                     {item.grp_name}
@@ -123,8 +135,10 @@ export default function RecentChats() {
                         <div className="flex items-center">
                             <div className="flex-1 min-w-0 ms-4">
                                 <p onClick={()=>{
+                                    
                                     setGroup(true)
                                     setSelectedName(item.grp_name)
+                                    setReceiver(item.grp_id)
                                     test1.mutate({sender_id:auth.user.id,receiver_id:item.grp_id,group:true})
                                 }} className="text-md font-medium text-[#5E5873] truncate hover:text-[#0075FF] hover:underline">
                                     {item.grp_name}
@@ -138,6 +152,39 @@ export default function RecentChats() {
                 </ul>
             </div>
         </div>
+
+        <div className="w-full max-w-md p-4 bg-white text-[#5E5873]">
+            <div className="flex items-center justify-between mb-4">
+                <h5 className="text-xl font-bold leading-none text-[#5E5873]">Copilot</h5>
+                <Link href="#" className="text-sm font-medium text-[#0075FF] hover:underline">
+                    View all
+                </Link>
+            </div>
+            <div className="flow-root">
+                <ul role="list" className="divide-y divide-gray-200">
+                    
+                    <li className="py-2">
+                        <div className="flex items-center">
+                            <div className="flex-1 min-w-0 ms-4">
+                                <p onClick={()=>{
+                                    setAI(true)
+                                    setGroup(false)
+                                    setSelectedName('Trumio Copilot')
+                                    setReceiver(4)
+                                    test1.mutate({sender_id:auth.user.id,receiver_id:4,group:false})
+                                }} className="text-md font-medium text-[#5E5873] truncate hover:text-[#0075FF] hover:underline">
+                                    Trumio Copilot
+                                </p>
+                                <p className="text-md text-[#5E5873] truncate">
+                                    How May i Help You
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
       </div>
     </div>
   )

@@ -27,8 +27,9 @@ export default function RootLayout({ children }) {
             <NavbarComponent />
             {children}
 
-            <ReactQueryDevtools />
+            
           </HomeProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
 
       </body>
