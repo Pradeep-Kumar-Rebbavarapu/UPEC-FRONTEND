@@ -28,22 +28,22 @@ export default function Home() {
 
   useEffect(() => {
     setRandomElements(getRandomElements(data, 10));
-  }, []); // Empty dependency array ensures the effect runs only once on mount
-
-  const handleRefresh = () => {
-    setRandomElements(getRandomElements(data, 10));
-  };
+  }, []);
 
   return (
     <div className="flex flex-row p-2 sm:p-5 h-screen lg:text-md text-xs">
       <ProfileCard/>
       <div className="flex flex-col w-[90%] lg:w-1/2 mx-auto">
-        {/* Use any 10 of the posts from the data.json to show random posts where the data is simple array consisting post details in each element*/}
+        {/* Make a search box above the posts section*/}
+        <div className="flex gap-2 justify-center">
+          <input type="text" placeholder="Search for Posts/Projects" className="w-[70%] h-10 border border-gray-200 rounded-md p-2 shadow-lg"/>
+          <button className="w-[10%] h-10 bg-blue-500 rounded-md text-white shadow-lg">Search</button>
+        </div>
         {randomElements.map((post) => (
           <PostCard key={post.id} post={post}/>
         ))}
       </div>
-      <div className="hidden lg:flex flex-col w-1/4 justify-center items-center">
+      <div className="hidden lg:flex flex-col w-1/4">
           <RecentEvents/>
           <RecentChatCard/>
       </div>
