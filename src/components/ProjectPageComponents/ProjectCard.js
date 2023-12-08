@@ -72,12 +72,19 @@ export default function ProjectCard() {
               </div>
               {
                 workflowData && open ?
-                <span onClick={closeWorkflow} className="cursor-pointer text-sm md:text-md bg-[#2FB4F4] hover:bg-[#3EA4F4] bg-opacity-80 text-white px-3 py-2 rounded-md font-bold h-min">Close Workflow</span>
+                <span onClick={closeWorkflow} className="cursor-pointer hidden sm:block text-sm md:text-md bg-[#2FB4F4] hover:bg-[#3EA4F4] bg-opacity-80 text-white px-3 py-2 rounded-md font-bold h-min">Close Workflow</span>
                 :
-                <span onClick={handleGenerateWorkflow} className="cursor-pointer text-sm md:text-md bg-[#28C76F] hover:bg-[#3cad6f] bg-opacity-80 text-white px-3 py-2 rounded-md font-bold h-min">Generate Workflow</span>
+                <span onClick={handleGenerateWorkflow} className="cursor-pointer hidden sm:block text-sm md:text-md bg-[#28C76F] hover:bg-[#3cad6f] bg-opacity-80 text-white px-3 py-2 rounded-md font-bold h-min">Generate Workflow</span>
               }
             </div>
-            <div className='flex sm:hidden pt-3 justify-end'><span className="text-sm md:text-md bg-[#28C76F] hover:bg-[#3cad6f] bg-opacity-80 text-white px-3 py-2 rounded-md font-bold h-min">Generate Workflow</span></div>
+            <div className='flex sm:hidden pt-3 justify-end'>
+              {
+                workflowData && open ?
+                <span onClick={closeWorkflow} className="cursor-pointer sm:hidden text-sm md:text-md bg-[#2FB4F4] hover:bg-[#3EA4F4] bg-opacity-80 text-white px-3 py-2 rounded-md font-bold h-min">Close Workflow</span>
+                :
+                <span onClick={handleGenerateWorkflow} className="cursor-pointer sm:hidden text-sm md:text-md bg-[#28C76F] hover:bg-[#3cad6f] bg-opacity-80 text-white px-3 py-2 rounded-md font-bold h-min">Generate Workflow</span>
+              }
+            </div>
             {workflowData && open && <WorkflowCard workflowData={workflowData}/>}
           </div>
         </div>
