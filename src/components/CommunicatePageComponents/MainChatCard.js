@@ -114,7 +114,8 @@ export default function MainChatCard({id}) {
               
             }}><GoCopilot  className=' transition-all fade-in-out mx-4 w-8 h-8'  /></button>}
             
-        </div>
+
+      </div>
     </div>
   )
 }
