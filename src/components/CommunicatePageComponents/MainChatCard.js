@@ -90,7 +90,7 @@ export default function MainChatCard({id}) {
               setmessage(e.target.value)
             }} placeholder="Enter Your Message" className="mx-4 border border-gray-200 h-10 w-full rounded-lg px-2 text-black"/>
             <button className='text-black flex' onClick={()=>{
-              alert(AI)
+              
               socket.current.send(JSON.stringify({
                 "type":"send_message_to_user",
                 "data":{
