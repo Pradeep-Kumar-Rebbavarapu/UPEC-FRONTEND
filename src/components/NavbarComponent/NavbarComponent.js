@@ -20,10 +20,10 @@ export default function NavbarComponent() {
                             <Link href="/projects">
                                 <li className='ml-6 text-lg cursor-pointer text-neutral-500  hover:text-blue-400 hover:font-medium'>Projects</li>
                             </Link>
-                            <Link href="/">
+                            <Link href="/communicate">
                                 <li className='ml-6 text-lg cursor-pointer text-neutral-500  hover:text-blue-400 hover:font-medium'>Communicate</li>
                             </Link>
-                            <Link href="/">
+                            <Link href="/assistance">
                                 <li className='ml-6 text-lg cursor-pointer text-neutral-500  hover:text-blue-400 hover:font-medium'>AI Assistance</li>
                             </Link>
                         </ul>
