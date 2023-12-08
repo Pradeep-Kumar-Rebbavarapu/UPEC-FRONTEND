@@ -22,7 +22,7 @@ export const HomeProvider = ({children})=>{
     Receiver,
     setReceiver,
     AI,
-    setAI
+    setAI,
   }
   return (
     <HomeContext.Provider value={ContextData}>

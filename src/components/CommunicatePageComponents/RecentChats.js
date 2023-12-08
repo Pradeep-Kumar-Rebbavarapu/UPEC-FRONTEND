@@ -73,7 +73,7 @@ export default function RecentChats() {
                                             console.log(item.i)
                                             setSelectedName(item.username)
                                             setReceiver(item.id)
-                                            test1.mutate({sender_id:auth.user.id,receiver_id:item.id,group:false})
+                                            test1.mutate({sender_id:auth.user.id,receiver_id:item.id,group:false,ai:false})
                                         }}  className="text-md font-medium text-[#5E5873] truncate hover:text-[#0075FF] hover:underline">
                                             {item.username}
                                         </p>
@@ -171,7 +171,7 @@ export default function RecentChats() {
                                     setGroup(false)
                                     setSelectedName('Trumio Copilot')
                                     setReceiver(4)
-                                    test1.mutate({sender_id:auth.user.id,receiver_id:4,group:false})
+                                    test1.mutate({sender_id:auth.user.id,receiver_id:4,group:false,ai:true})
                                 }} className="text-md font-medium text-[#5E5873] truncate hover:text-[#0075FF] hover:underline">
                                     Trumio Copilot
                                 </p>
@@ -214,7 +214,7 @@ const fetchPersonalChats = async (data) => {
     return axios
       .post(
         data.group?`http://127.0.0.1:8000/api/v1/__get__group__messages__/`:`http://127.0.0.1:8000/api/v1/__get__personal__messages__/`,
-        {sender:data.sender_id,receiver:data.receiver_id},
+        {sender:data.sender_id,receiver:data.receiver_id,ai:data.ai},
         {
           headers: {
             Authorization: `Bearer ${data.access}`,

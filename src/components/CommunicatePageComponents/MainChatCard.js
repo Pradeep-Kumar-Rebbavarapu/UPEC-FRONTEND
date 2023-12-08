@@ -104,11 +104,11 @@ export default function MainChatCard({id}) {
             }}><IoSend className='text-black mx-4 w-8 h-8'  /> </button>
             {Group && <button id="ai-grp-btn" className='text-black' onClick={(e)=>{
               if(document.getElementById('ai-grp-btn').classList.contains('text-blue-600')){
-                setAI(true)
+                setAI(false)
                 document.getElementById('ai-grp-btn').className = "text-black"
               }
               else{
-                setAI(false)
+                setAI(true)
                 document.getElementById('ai-grp-btn').className = "text-blue-600"
               }
               
