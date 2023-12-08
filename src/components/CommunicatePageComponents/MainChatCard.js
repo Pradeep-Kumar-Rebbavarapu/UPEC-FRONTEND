@@ -1,27 +1,80 @@
 "use client";
-import React, { useContext } from 'react'
+import React, { useContext,useRef,useEffect } from 'react'
 import { useState } from 'react';
 import SenderChatCard from './SenderChatCard';
+import { IoSend } from "react-icons/io5";
 import RecieverChatCard from './RecieverChatCard';
 import HomeContext from '@/context/HomeContext';
-
+import { GoCopilot } from "react-icons/go";
 export default function MainChatCard({id}) {
-    const {auth,EachUsersMessages, setEachUsersMessages} = useContext(HomeContext)
+    const {auth,EachUsersMessages, setEachUsersMessages,SelectedName,setSelectedName,Receiver,Group,AI,setAI} = useContext(HomeContext)
     console.log(EachUsersMessages)
+    let socket = useRef(null);
+    const [message,setmessage] = useState(null)
+    useEffect(() => {
+      
+      socket.current = new WebSocket(
+        `ws://127.0.0.1:8000/ws/chat/${auth?.user?.id}`
+      );
+  
+      socket.current.onopen = () => {
+        console.log("ws opened");
+      };
+      socket.current.onmessage = (e) => {
+        const data = JSON.parse(e.data);
+        console.log(e);
+        console.log(data);
+        if (data["type"] === "sent_message") {
+          console.log(data);
+          const new_data = {
+            sender: data["sender"],
+            message: data["message"],
+            receiver: data["receiver"],
+            id: data["id"],
+            created_at_date: data["created_at_date"],
+            created_at_time: data["created_at_time"],
+          };
+          setEachUsersMessages((prev) => {
+            return [...prev, new_data];
+          });
+        } else if (data["type"] === "receive_message") {
+          const new_data = {
+            sender: data["sender"],
+            message: data["message"],
+            receiver: data["receiver"],
+            id: data["id"],
+            created_at_date: data["created_at_date"],
+            created_at_time: data["created_at_time"],
+            group:data["group"],
+            ai:data["ai"]
+          };
+          setEachUsersMessages((prev) => {
+            return [...prev, new_data];
+          });
+        }
+      };
+      socket.current.onclose = () => {
+        console.log("ws closed");
+      };
+      socket.current.onerror = (e) => {
+        console.log(e);
+      };
+  
+    }, [socket.current,auth]);
   return (
-    <div className='border border-gray-200 bg-white w-full md:w-3/4 h-screen p-2'>
-        <div className="w-full flex items-start justify-start p-2 border border-gray-200 h-min">
-            <img src="https://www.gravatar.com/avatar/2acfb745ecf9d4dccb3364752d17f65f?s=260&d=mp" alt="" className="w-12 h-12 xl:w-14 xl:h-14 rounded-full" />
+    <div className='border border-gray-200 bg-white w-3/4 h-screen  relative'>
+        <div className="w-full flex items-start justify-start p-2 border border-gray-200 absolute top-0 bg-white z-[1000]">
+            <img src="https://www.gravatar.com/avatar/2acfb745ecf9d4dccb3364752d17f65f?s=260&d=mp" alt="" className="w-16 h-16 rounded-full" />
             <div className="flex flex-col px-4 justify-center items-start text-gray-600">
-                <h2 className="text-md md:text-lg xl:text-xl">Ronie Ray</h2>
-                <h3 className="text-xs sm:text-md xl:text-lg">Last active at: today 7:08PM</h3> {/* Last active on: 3rd Nov */}
+                <h2 className="text-xl">{SelectedName}</h2>
+                <h3 className="text-lg">Last active at: 3rd Nov 2023, 7:08PM</h3>
             </div>
         </div>
-        <div className="h-[80%] border border-gray-200 bg-white overflow-scroll">
+        <div className="h-screen overflow-scroll py-[100px]">
             {EachUsersMessages?.map((ele)=>{
                 return (
                     <div>
-                        {ele.sender == auth.user.id ? (
+                        {ele.sender == auth.user.username ? (
                             <RecieverChatCard ele={ele}/>
                             
                         ):(
@@ -32,13 +85,37 @@ export default function MainChatCard({id}) {
                 )
             })}
         </div>
-        <div className="flex justify-center items-center border border-gray-200 p-2 xl:p-4 h-20">
-            <div className="mx-4 border border-gray-200 h-[90%] w-full rounded-lg"></div>
-            <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="17.5" cy="17.5" r="16.5" fill="#FDFDFD" stroke="#00B2FF" stroke-width="2"/>
-            <path d="M18.7071 7.29289C18.3166 6.90237 17.6834 6.90237 17.2929 7.29289L10.9289 13.6569C10.5384 14.0474 10.5384 14.6805 10.9289 15.0711C11.3195 15.4616 11.9526 15.4616 12.3431 15.0711L18 9.41421L23.6569 15.0711C24.0474 15.4616 24.6805 15.4616 25.0711 15.0711C25.4616 14.6805 25.4616 14.0474 25.0711 13.6569L18.7071 7.29289ZM19 28V8H17V28H19Z" fill="#00B2FF"/>
-            </svg>
-        </div>
+        <div className="flex justify-center items-center border border-gray-200 p-4 absolute bottom-0 bg-white w-full">
+            <input onChange={(e)=>{
+              setmessage(e.target.value)
+            }} placeholder="Enter Your Message" className="mx-4 border border-gray-200 h-10 w-full rounded-lg px-2 text-black"/>
+            <button className='text-black flex' onClick={()=>{
+              
+              socket.current.send(JSON.stringify({
+                "type":"send_message_to_user",
+                "data":{
+                  "sender":auth.user.id,
+                  "receiver":Receiver,
+                  "group":Group,
+                  "ai":AI,
+                  "message":message
+                }
+              }))
+            }}><IoSend className='text-black mx-4 w-8 h-8'  /> </button>
+            {Group && <button id="ai-grp-btn" className='text-black' onClick={(e)=>{
+              if(document.getElementById('ai-grp-btn').classList.contains('text-blue-600')){
+                setAI(false)
+                document.getElementById('ai-grp-btn').className = "text-black"
+              }
+              else{
+                setAI(true)
+                document.getElementById('ai-grp-btn').className = "text-blue-600"
+              }
+              
+            }}><GoCopilot  className=' transition-all fade-in-out mx-4 w-8 h-8'  /></button>}
+            
+
+      </div>
     </div>
   )
 }

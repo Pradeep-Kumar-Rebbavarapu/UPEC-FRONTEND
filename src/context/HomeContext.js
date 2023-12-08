@@ -1,15 +1,28 @@
 import React, { createContext, useState } from 'react'
+import Cookies from 'js-cookie';
+
 
 const HomeContext = createContext();
 export const HomeProvider = ({children})=>{
-  const [auth,setauth] = useState({user:{id:1,username:"pradeepkumar",last_login:"",email:"rpkiit2022@gmail.com"},"access_token":"","refresh_token":""})
+  const [auth,setauth] = useState({user:{id:parseInt(Cookies.get('id')),username:Cookies.get('username'),last_login:"",email:"rpkiit2022@gmail.com"},"access_token":"","refresh_token":""})
   const [EachUsersMessages,setEachUsersMessages] = useState([])
   const [SelectedName,setSelectedName] = useState(false)
+  const [Group,setGroup] = useState(false)
+  const [Receiver,setReceiver] = useState(null)
+  const [AI,setAI] = useState(false)
   const ContextData = {
     auth,
     setauth,
     EachUsersMessages,
     setEachUsersMessages,
+    SelectedName,
+    setSelectedName,
+    Group,
+    setGroup,
+    Receiver,
+    setReceiver,
+    AI,
+    setAI,
   }
   return (
     <HomeContext.Provider value={ContextData}>
