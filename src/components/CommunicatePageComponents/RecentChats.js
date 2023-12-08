@@ -68,9 +68,11 @@ export default function RecentChats() {
                                             <div className="flex items-center">
                                                 <div className="flex-1 min-w-0 ms-4">
                                                     <p onClick={() => {
-                                                        console.log(item.i)
+                                                        setAI(false)
+                                                        setGroup(false)
+                                                        setReceiver(item.id)
                                                         setSelectedName(item.username)
-                                                        test1.mutate({ sender_id: auth.user.id, receiver_id: item.id, group: false })
+                                                        test1.mutate({ sender: auth.user.id, receiver: item.id, group: false,ai:false })
                                                     }} className="text-sm lg:text-md font-medium text-[#5E5873] truncate hover:text-[#0075FF] hover:underline">
                                                         {item.username}
                                                     </p>
@@ -100,11 +102,10 @@ export default function RecentChats() {
                                     <div className="flex items-center">
                                         <div className="flex-1 min-w-0 ms-4">
                                             <p onClick={() => {
-
                                                 setGroup(true)
                                                 setSelectedName(item.grp_name)
                                                 setReceiver(item.grp_id)
-                                                test1.mutate({ sender_id: auth.user.id, receiver_id: item.grp_id, group: true })
+                                                test1.mutate({ sender: auth.user.id, receiver: item.grp_id, group: true })
                                             }} className="text-sm lg:text-md font-medium text-[#5E5873] truncate hover:text-[#0075FF] hover:underline">
                                                 {item.grp_name}
                                             </p>
@@ -135,7 +136,7 @@ export default function RecentChats() {
                                                 setGroup(true)
                                                 setSelectedName(item.grp_name)
                                                 setReceiver(item.grp_id)
-                                                test1.mutate({ sender_id: auth.user.id, receiver_id: item.grp_id, group: true })
+                                                test1.mutate({ sender: auth.user.id, receiver: item.grp_id, group: true })
                                             }} className="text-sm lg:text-md font-medium text-[#5E5873] truncate hover:text-[#0075FF] hover:underline">
                                                 {item.grp_name}
                                             </p>
@@ -167,7 +168,7 @@ export default function RecentChats() {
                                             setGroup(false)
                                             setSelectedName('Trumio Copilot')
                                             setReceiver(4)
-                                            test1.mutate({ sender_id: auth.user.id, receiver_id: 4, group: false, ai: true })
+                                            test1.mutate({ sender: auth.user.id, receiver: 4, group: false, ai: true })
                                         }} className="text-md font-medium text-[#5E5873] truncate hover:text-[#0075FF] hover:underline">
                                             Trumio Copilot
                                         </p>
@@ -207,10 +208,11 @@ const getProjectGroupChats = async (id) => {
 
 
 const fetchPersonalChats = async (data) => {
+    console.log(data)
     return axios
         .post(
             data.group ? `http://127.0.0.1:8000/api/v1/__get__group__messages__/` : `http://127.0.0.1:8000/api/v1/__get__personal__messages__/`,
-            { sender: data.sender_id, receiver: data.receiver_id, ai: data.ai },
+            { sender: data.sender, receiver: data.receiver, ai: data.ai },
             {
                 headers: {
                     Authorization: `Bearer ${data.access}`,
@@ -241,3 +243,5 @@ const useGetPersonalChats = () => {
         },
     });
 };
+
+
