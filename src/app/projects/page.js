@@ -1,7 +1,9 @@
 import React from 'react'
 import ProjectCard from '@/components/ProjectPageComponents/ProjectCard'
 
-export default function Projects() {
+export default async function Projects() {
+  const AllProjects = await fetchAllProjects()
+  console.log(AllProjects)
   return (
     <div className='bg-[#F7F7F7] text-[#D6DCE8]'>
       <div className='shadow-lg m-4 p-4 bg-white rounded-md'>
@@ -13,9 +15,20 @@ export default function Projects() {
       </div>
       <div className='shadow-lg m-4 p-2 md:p-4 bg-white rounded-md'>
         <h1 className="text-lg md:text-2xl xl:text-4xl font-bold">Recommended Projects</h1>
-        <ProjectCard/>
-        <ProjectCard/>
+        {AllProjects.map((ele,index)=>{
+          return (
+            <ProjectCard ele={ele}/>
+          )
+        })}
+        
       </div>
     </div>
   )
+}
+
+const fetchAllProjects = async () =>{
+  const res = await fetch('http://127.0.0.1:8000/api/v1/__get__all__projects__')
+  const json = await res.json()
+  console.log('json',json)
+  return json
 }

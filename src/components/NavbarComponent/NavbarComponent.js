@@ -66,10 +66,10 @@ export default function NavbarComponent() {
         <Link href="/" className="block py-2 px-3 text-gray-400 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-500 md:p-0" aria-current="page">Discover</Link>
       </li>
       <li>
-        <Link href="projects" className="block py-2 px-3 text-gray-400 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-500 md:p-0">Projects</Link>
+        <Link href="/projects" className="block py-2 px-3 text-gray-400 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-500 md:p-0">Projects</Link>
       </li>
       <li>
-        <Link href="communicate" className="block py-2 px-3 text-gray-400 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-500 md:p-0">Communicate</Link>
+        <Link href="/communicate" className="block py-2 px-3 text-gray-400 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-500 md:p-0">Communicate</Link>
       </li>
     </ul>
   </div>
