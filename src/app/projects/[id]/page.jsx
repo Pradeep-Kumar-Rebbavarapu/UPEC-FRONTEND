@@ -20,7 +20,7 @@ export default function EachProject({ params }) {
     return (
         <div>
             <section class="text-gray-600 body-font">
-                <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+                <div class="container mx-auto flex px-5 py-10 md:flex-row flex-col items-center">
                     <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
                         <EachProjectCard ele={EachProject?.data}/>
                     </div>
@@ -39,11 +39,33 @@ export default function EachProject({ params }) {
                             
                         </div>
                     </div>
-                    <div>
-                        {parse(EachProject?.data?.workflow)}
+                    
+                </div>
+                <div className='mx-10 my-10 text-black'>
+                    <h1 className='text-center font-bold text-black my-10 text-3xl'>Workflow For Talents</h1>
+                        {parse(EachProject.data?EachProject?.data?.workflow?.description:"")}
+                </div>
+
+                <div className='mx-10 my-10 text-black'>
+                    <h1 className='text-center font-bold text-black my-10 text-3xl'>Learning Resources For Talents</h1>
+                    <div id="learning_resources">
+                        {parse(EachProject.data?EachProject?.data?.Learning_resources:"")}
                     </div>
                 </div>
+
+                <div className='mx-10 my-10 text-black'>
+                    <h1 className='text-center font-bold text-black my-10 text-3xl'>Project Management for Talents</h1>
+                        {parse(EachProject.data?EachProject?.data?.workflow?.description:"")}
+                </div>
             </section>
+            <style jsx>
+                {`
+                 #learning_resources  a{
+                    color:blue;
+                    margin:10px 10px;
+                 }
+                `}
+            </style>
         </div>
     )
 }
