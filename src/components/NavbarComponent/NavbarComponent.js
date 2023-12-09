@@ -42,7 +42,7 @@ export default function NavbarComponent() {
           </div>
           <ul className="py-2" aria-labelledby="user-menu-button">
             <li>
-              <Link onClick={call}  href="/profile" className="block px-4 py-2 text-sm text-gray-400 hover:bg-gray-100">Profile</Link>
+              <Link href="/profile" className="block px-4 py-2 text-sm text-gray-400 hover:bg-gray-100">Profile</Link>
             </li>
             <li>
               <Link href="/accounts" className="block px-4 py-2 text-sm text-gray-400 hover:bg-gray-100">Accounts</Link>

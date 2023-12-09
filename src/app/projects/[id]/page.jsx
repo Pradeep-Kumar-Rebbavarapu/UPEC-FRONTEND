@@ -33,7 +33,7 @@ export default function EachProject({ params }) {
                                 <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" onClick={()=>{
                                 }}>Generate Workflow</button>
                             )}
-                            {(EachProject?.data?.Learning_resources==null | EachProject?.data?.Learning_resources.length===0) && (
+                            {(EachProject?.data?.Learning_resources==null | EachProject?.data?.Learning_resources?.length===0) && (
                                 <button class="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">Generate Learning Resources</button>
                             )}
                             
