@@ -63,7 +63,7 @@ export default function MainChatCard({id}) {
     }, [socket.current,auth]);
   return (
     <div className='border border-gray-200 bg-white w-3/4 h-screen  relative'>
-        <div className="w-full flex items-start justify-start p-2 border border-gray-200 absolute top-0 bg-white z-[1000]">
+        <div className="w-full flex items-start justify-start p-2 border border-gray-200 absolute top-0 bg-white z-1">
             <img src="https://www.gravatar.com/avatar/2acfb745ecf9d4dccb3364752d17f65f?s=260&d=mp" alt="" className="w-16 h-16 rounded-full" />
             <div className="flex flex-col px-4 justify-center items-start text-gray-600">
                 <h2 className="text-xl">{SelectedName}</h2>
