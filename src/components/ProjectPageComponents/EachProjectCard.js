@@ -7,13 +7,13 @@ export default function
         <div>
             <div className="flex justify-center w-full">
                 <div className="max-w-full">
-                    <div className="bg-white shadow-[2px_2px_2px_2px] rounded-md py-3">
+                    <div className="bg-white shadow-lg rounded-md py-3">
                         <div className="p-2">
                             <div className="text-md my-3 ">
                                 <div><div className='grid grid-cols-[auto_auto]'>
                                     <div className="px-2 py-2 text-gray-500 font-semibold">Skills Required</div>
                                     <div className='flex flex-wrap'>
-                                        {ele?.related_techstacks.map((item, index) => {
+                                        {ele?.related_techstacks?.map((item, index) => {
                                             return (
                                                 <div key={index} className="px-2 py-2">
                                                     {item}
@@ -22,7 +22,7 @@ export default function
                                         })}
                                     </div>
                                 </div>
-                                    <div className='grid grid-cols-[auto_auto] '>
+                                    <div className='grid grid-cols-[auto_auto]'>
                                         <div className="px-2 py-2 text-gray-500 font-semibold">Bid Price</div>
                                         <div className="px-2 py-2 !text-start !justify-start">{ele?.bid_price}</div>
                                     </div>
