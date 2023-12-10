@@ -47,7 +47,7 @@ export default function EachProject({ params }) {
                 </div>
                 <div className='mx-10 my-10 text-black'>
                     <h1 className='text-center font-bold text-black my-10 text-3xl'>Workflow For Talents</h1>
-                    {parse(EachProject.data ? EachProject?.data?.workflow?.description : "")}
+                    {EachProject.data ? EachProject?.data?.workflow?.description : ""}
                 </div>
 
                 <div className='mx-10 my-10 text-black'>
@@ -96,3 +96,6 @@ const fetchEachProject = async (id) => {
         return []
     })
 }
+
+
+//give me 2 min

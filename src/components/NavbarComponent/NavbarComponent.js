@@ -2,27 +2,26 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 export default function NavbarComponent() {
     const [dropDown, setDropDown] = useState(false)
     const handleButtonFocus = () => {
       setDropDown(true);
-      setDropDown(prevState => !prevState);
+      handleClick();
     };
     const handleClick = () => {
       setDropDown(prevState => !prevState);
     };
     const handleButtonBlur = () => {
+      setTimeout(() => {
         setDropDown(false);
+      }, 250);
     };
     const [isNavbarVisible, setIsNavbarVisible] = useState(false);
     const handleToggleNavbar = () => {
     setIsNavbarVisible((prevState) => !prevState);
     };
-    const call = () => {
-      console.log("profile")
-    }
   return (
 <nav className="bg-white border-gray-200 shadow-lg">
   <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 md:overflow-visible h-min md:max-h-20">
